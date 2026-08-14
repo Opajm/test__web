@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opime | strefa gracza</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-text: #F3F3F4;
+            --secondary-text: #d1d1d6;
+            --muted-text: #a0a0ab;
+            --primary-background: #1a1a1a;
+            --secondary-background: #0d0d0d;
+            --card-background: #161616;
+            --border-gray: #333333;
+            --border-light: #3f3f46;
+            --accent-steam: #66c0f4;
+            --accent-twitch: #9146FF;
+            --accent-hover: #ffffff;
+            --transition-smooth: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #121212 0%, #1f1f1f 100%);
+            color: var(--primary-text);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            letter-spacing: 0.2px;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: sticky;
+            top: 16px;
+            margin: 16px auto 0;
+            width: min(92%, 1100px);
+            backdrop-filter: blur(20px) saturate(180%);
+            background-color: rgba(13, 13, 13, 0.75);
+            border: 1px solid var(--border-gray);
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 0.7rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        header:hover {
+            background-color: rgba(25, 25, 25, 0.85);
+            border-color: #4b4b4b;
+            transform: translateY(-2px);
+        }
+
+        header img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        header img:hover {
+            transform: scale(1.08);
+        }
+
+        header h2 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f0f0f0, #b0b0b0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        main {
+            flex: 1;
+            width: min(95%, 1200px);
+            margin: 3rem auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #eaeaea, #b9b9b9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .link-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .platform-card {
+            background: var(--card-background);
+            border: 1px solid var(--border-gray);
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            min-width: 280px;
+            flex: 1 1 480px;
+            max-width: 550px;
+            text-align: center;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(20,20,20,0.7);
+        }
+
+        .platform-card:hover {
+            transform: translateY(-6px);
+            border-color: #5e5e6e;
+            background: #1d1d1f;
+            box-shadow: 0 18px 28px -8px rgba(0,0,0,0.8);
+        }
+
+        .platform-card i {
+            font-size: 3.4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .steam-card i {
+            color: var(--accent-steam);
+        }
+
+        .twitch-card i {
+            color: var(--accent-twitch);
+        }
+
+        .tiktok-card i {
+            color: #69C9D0;
+        }
+
+        .mr-card i {
+            color: #7bc142;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            transition: color 0.25s ease;
+        }
+
+        .steam-card:hover .card-title {
+            color: var(--accent-steam);
+        }
+
+        .twitch-card:hover .card-title {
+            color: var(--accent-twitch);
+        }
+
+        .tiktok-card:hover .card-title {
+            color: #69C9D0;
+        }
+
+        .mr-card:hover .card-title {
+            color: #7bc142;
+        }
+
+        .btn-platform {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid #4b4b5e;
+            border-radius: 40px;
+            padding: 0.5rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            letter-spacing: 0.4px;
+            transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+            text-decoration: none;
+            margin: 0.2rem;
+        }
+
+        .btn-platform:hover {
+            background: #2a2a2e;
+            border-color: #7a7a8c;
+            color: white;
+            box-shadow: 0 0 15px rgba(150,150,200,0.25);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            width: 100%;
+            padding: 1.5rem 1rem;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(6px);
+            border-top: 1px solid #282828;
+            margin-top: 2rem;
+            text-align: center;
+            color: #909090;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 0.6rem 1.2rem;
+                gap: 8px;
+                border-radius: 40px;
+                margin-top: 8px;
+                width: 95%;
+            }
+            header img {
+                width: 36px;
+                height: 36px;
+            }
+            header h2 {
+                font-size: 1.4rem;
+            }
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+            .link-container {
+                gap: 1.5rem;
+            }
+            .platform-card {
+                padding: 1.5rem 1.5rem;
+                min-width: 100%;
+                max-width: 100%;
+                flex-basis: 100%;
+            }
+            .platform-card i {
+                font-size: 2.8rem;
+            }
+            .btn-platform {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="logo opime">
+        <h2>opime</h2>
+    </header>
+
+    <main>
+        <section class="welcome-section">
+            <h1>Links</h1>
+        </section>
+
+        <div class="link-container" id="link">
+            <div class="platform-card mr-card" id="Microsoft Rewards">
+                <i class="fab fa-microsoft"></i>
+                <div class="card-title">Microsoft Rewards</div>
+                <a href="https://rewards.bing.com/about?rh=YqYyW6QE7Rc&ref=rafsrchae" class="btn-platform">Join</a>
+            </div>
+
+            <div class="platform-card steam-card" id="steam">
+                <i class="fab fa-steam"></i>
+                <div class="card-title">Steam</div>
+                <div>
+                    <a href="https://steamcommunity.com/id/Opajm/" class="btn-platform">Profile</a>
+                    <a href="https://steamcommunity.com/id/Opajm/inventory/" class="btn-platform">Inventory</a>
+                    <a href="https://steamcommunity.com/id/Opajm/games/" class="btn-platform">Games</a>
+                </div>
+            </div>
+
+            <div class="platform-card twitch-card" id="twitch">
+                <i class="fab fa-twitch"></i>
+                <div class="card-title">Twitch</div>
+                <a href="https://twitch.tv/opajm" class="btn-platform">Profile</a>
+            </div>
+
+            <!-- <div class="platform-card tiktok-card" id="Tiktok">
+                <i class="fab fa-tiktok"></i>
+                <div class="card-title">TikTok</div>
+                <a href="#" class="btn-platform">Profile</a>
+            </div>  no more spam 🙏-->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <span>opime</span>
+        </div>
+    </footer>
+</body>
+</html>
